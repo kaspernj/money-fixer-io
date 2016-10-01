@@ -2,8 +2,7 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
   Exclude:
-    - db/schema.rb
-    - spec/dummy/db/schema.rb
+    - money-fixer-io.gemspec
 
 # https://github.com/AtomLinter/linter-rubocop/issues/2
 Style/FileName:
