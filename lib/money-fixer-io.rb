@@ -37,7 +37,7 @@ class Money::Bank::FixerIo < Money::Bank::VariableExchange
   end
 
   def cache
-    @@money_bank_fixer_io_cache ||= {}
+    @@money_bank_fixer_io_cache ||= {} # rubocop:disable Style/ClassVars
   end
 
   ##
@@ -88,17 +88,21 @@ class Money::Bank::FixerIo < Money::Bank::VariableExchange
     expire_rates
 
     if args[:exchanged_at]
-      exchanged_at = args.fetch(:exchanged_at).strftime("%Y-%m-%d")
-
-      if cache[from] && cache[from][to] && cache[from][to][exchanged_at]
-        cache[from][to][exchanged_at]
-      else
-        cache[from] ||= {}
-        cache[from][to] ||= {}
-        cache[from][to][exchanged_at] = fetch_rate(from, to, exchanged_at: exchanged_at)
-      end
+      get_rate_with_exchange_rate(from, to, args)
     else
       store.get_rate(from, to) || store.add_rate(from, to, fetch_rate(from, to))
+    end
+  end
+
+  def get_rate_with_exchange_rate(from, to, args = {})
+    exchanged_at = args.fetch(:exchanged_at).strftime("%Y-%m-%d")
+
+    if cache[from] && cache[from][to] && cache[from][to][exchanged_at]
+      cache[from][to][exchanged_at]
+    else
+      cache[from] ||= {}
+      cache[from][to] ||= {}
+      cache[from][to][exchanged_at] = fetch_rate(from, to, exchanged_at: exchanged_at)
     end
   end
 
