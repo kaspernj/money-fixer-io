@@ -32,10 +32,6 @@ class Money::Bank::FixerIo < Money::Bank::VariableExchange
     end
   end
 
-  def initialize(*)
-    super
-  end
-
   def cache
     @@money_bank_fixer_io_cache ||= {} # rubocop:disable Style/ClassVars
   end
