@@ -2,8 +2,6 @@ require "money"
 require "open-uri"
 
 class Money::Bank::FixerIo < Money::Bank::VariableExchange
-  SERVICE_HOST = "api.fixer.io".freeze
-
   # @return [Hash] Stores the currently known rates.
   attr_reader :rates
 
@@ -131,6 +129,7 @@ private
     uri = build_uri(from, to, args)
 
     data = JSON.parse(uri.read)
+
     rate = data.fetch("rates").fetch(to.iso_code)
     rate = 1 / extract_rate(build_uri(to, from).read) if rate < 0.1
     rate
@@ -145,18 +144,18 @@ private
   # @return [URI::HTTP]
   def build_uri(from, _to, args = {})
     if args[:exchanged_at]
-      path = "/#{args.fetch(:exchanged_at)}"
+      path = "/api/#{args.fetch(:exchanged_at)}"
     else
-      path = "/latest"
+      path = "/api/latest"
     end
 
-    query = "base=#{from.iso_code}"
+    query = {base: from.iso_code}
+    query[:access_key] = ENV["FIXER_IO_API_KEY"] if ENV["FIXER_IO_API_KEY"]
 
-    uri = URI::HTTP.build(
-      host: SERVICE_HOST,
+    URI::HTTP.build(
+      host: "data.fixer.io",
       path: path,
-      query: query
+      query: URI.encode_www_form(query)
     )
-    uri
   end
 end
