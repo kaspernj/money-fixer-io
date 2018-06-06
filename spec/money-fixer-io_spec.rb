@@ -15,7 +15,7 @@ describe Money::Bank::FixerIo do
       result = bank.get_rate(currency_eur, currency_dkk, exchanged_at: Time.new(2016, 1, 1))
       result = format("%.2f", result).to_f
 
-      expect(result).to eq 7.46
+      expect(result).to eq 7.45
     end
 
     it "does caching" do
