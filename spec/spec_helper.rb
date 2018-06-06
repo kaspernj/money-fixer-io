@@ -3,6 +3,9 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require "rspec"
 require "money-fixer-io"
+require "dotenv"
+
+Dotenv.load(File.join(File.dirname(__FILE__), "..", ".env"))
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.

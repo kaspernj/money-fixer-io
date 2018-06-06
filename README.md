@@ -1,6 +1,17 @@
 # money-fixer-io
 
-Description goes here.
+Money integration with Fixer.io.
+
+## Install
+
+gem "money-fixer-io"
+
+## Usage
+
+To use an API key, you can set an environment variable like this:
+```
+FIXER_IO_API_KEY=my-api-key
+```
 
 ## Contributing to money-fixer-io
 
