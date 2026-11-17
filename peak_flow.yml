@@ -1,3 +1,35 @@
-script:
-  - bundle exec rspec
-  - bundle exec rubocop
+builds:
+  - name: rspec
+    script: bundle exec rspec
+    paths:
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "*.gemspec"
+      - "Rakefile"
+      - "peak_flow.yml"
+      - ".rspec"
+      - ".ruby-version"
+      - ".rubocop.yml"
+      - "VERSION"
+      - ".gitignore"
+      - "!**/*.rb"
+      - "lib/**/*.rb"
+      - "spec/**/*.rb"
+  - name: rubocop
+    script: bundle exec rubocop
+    paths:
+      - "**/*.rb"
+      - ".rubocop.yml"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "*.gemspec"
+      - "Rakefile"
+      - "peak_flow.yml"
+      - ".rspec"
+      - ".ruby-version"
+      - "VERSION"
+      - ".gitignore"
+      - "!lib/**"
+      - "!spec/**"

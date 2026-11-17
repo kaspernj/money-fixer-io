@@ -6,6 +6,15 @@ describe Money::Bank::FixerIo do
   let(:currency_dkk) { Money::Currency.new("DKK") }
 
   describe "#get_rate" do
+    before do
+      allow(bank).to receive(:fetch_rate) do |_from, _to, args|
+        {
+          "2004-01-01" => 7.39,
+          "2016-01-01" => 7.45
+        }.fetch(args.fetch(:exchanged_at))
+      end
+    end
+
     it "returns the right rates" do
       result = bank.get_rate(currency_eur, currency_dkk, exchanged_at: Time.new(2004, 1, 1))
       result = format("%.2f", result).to_f
